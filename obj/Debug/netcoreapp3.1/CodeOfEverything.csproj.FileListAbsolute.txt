@@ -1,0 +1,13 @@
+/home/luca/Projects/CodeOfEverything/bin/Debug/netcoreapp3.1/CodeOfEverything
+/home/luca/Projects/CodeOfEverything/bin/Debug/netcoreapp3.1/CodeOfEverything.deps.json
+/home/luca/Projects/CodeOfEverything/bin/Debug/netcoreapp3.1/CodeOfEverything.runtimeconfig.json
+/home/luca/Projects/CodeOfEverything/bin/Debug/netcoreapp3.1/CodeOfEverything.runtimeconfig.dev.json
+/home/luca/Projects/CodeOfEverything/bin/Debug/netcoreapp3.1/CodeOfEverything.dll
+/home/luca/Projects/CodeOfEverything/bin/Debug/netcoreapp3.1/CodeOfEverything.pdb
+/home/luca/Projects/CodeOfEverything/obj/Debug/netcoreapp3.1/CodeOfEverything.csprojAssemblyReference.cache
+/home/luca/Projects/CodeOfEverything/obj/Debug/netcoreapp3.1/CodeOfEverything.AssemblyInfoInputs.cache
+/home/luca/Projects/CodeOfEverything/obj/Debug/netcoreapp3.1/CodeOfEverything.AssemblyInfo.cs
+/home/luca/Projects/CodeOfEverything/obj/Debug/netcoreapp3.1/CodeOfEverything.csproj.CoreCompileInputs.cache
+/home/luca/Projects/CodeOfEverything/obj/Debug/netcoreapp3.1/CodeOfEverything.dll
+/home/luca/Projects/CodeOfEverything/obj/Debug/netcoreapp3.1/CodeOfEverything.pdb
+/home/luca/Projects/CodeOfEverything/obj/Debug/netcoreapp3.1/CodeOfEverything.genruntimeconfig.cache
