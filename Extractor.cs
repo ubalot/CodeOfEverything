@@ -33,7 +33,7 @@ namespace Extractor
             zipFile = $"{@filePath.Substring(0, idx)}.zip";
 
             var dirPath = System.IO.Path.GetDirectoryName(filePath);
-            destDir = System.IO.Path.Combine(dirPath, "media");
+            destDir = System.IO.Path.Combine(dirPath, $"media-{getFilenameTitle(filename)}");
         }
 
         public void execute()
@@ -81,6 +81,12 @@ namespace Extractor
         {
             var idx = filename.LastIndexOf(".");
             return filename.Substring(idx, filename.Length - idx);
+        }
+
+        private static string getFilenameTitle(string filename)
+        {
+            var idx = filename.LastIndexOf(".");
+            return filename.Substring(0, idx);
         }
 
         static bool isAudioFile(string fileExtension)
