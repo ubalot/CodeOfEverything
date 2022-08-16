@@ -24,8 +24,7 @@ namespace FileFormatter
         {
             string text = File.ReadAllText(filePath);
             string[] lines = text.Split("\n");
-            string[] result = { };
-            Array.Copy(lines, result, lines.Length);
+            int originalLength = lines.Length;
             if (lines.Length == 0)
             {
                 //ok
@@ -39,7 +38,7 @@ namespace FileFormatter
                 else
                 {
                     //fix needed
-                    result.Append("");
+                    lines.Append("");
                 }
             }
             else
@@ -53,13 +52,13 @@ namespace FileFormatter
                 else
                 {
                     //fix needed
-                    result.Append("");
+                    lines.Append("");
                 }
             }
 
-            if (text.Length != result.Length)
+            if (originalLength != lines.Length)
             {
-                string formattedText = string.Join("\n", result);
+                string formattedText = string.Join("\n", lines);
                 File.WriteAllText(filePath, formattedText);
             }
         }
@@ -70,7 +69,7 @@ namespace FileFormatter
             string[] lines = text.Split("\n");
             string[] result = Array.ConvertAll(lines, line => line.TrimEnd());
             string resultText = string.Join("\n", result);
-            if (text != resultText)
+            if (text.Length != resultText.Length)
             {
                 File.WriteAllText(filePath, resultText);
             }
