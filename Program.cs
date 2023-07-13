@@ -1,65 +1,69 @@
 ﻿using System;
-using McMaster.Extensions.CommandLineUtils;
+using System.Collections.Generic;
+using CommandLine;
 
 namespace CodeOfEverything
 {
+    [Verb("extract", HelpText = "Extract data")]
+    class ExtractOptions
+    {
+        [Option("type", Required = true, HelpText = "Specify the type of data to extract.")]
+        public string Type { get; set; }
+
+        [Option("from", Required = true, HelpText = "Specify the source of the data.")]
+        public string From { get; set; }
+    }
+
+    [Verb("format", HelpText = "Format data")]
+    class FormatOptions
+    {
+        [Option('f', "file", Required = true, HelpText = "File with data")]
+        public string File {get; set; }
+    }
+
     class Program
     {
-        public static int Main(string[] args)
+        static void Main(string[] args)
         {
-            var app = new CommandLineApplication
+            CommandLine.Parser.Default.ParseArguments<ExtractOptions, FormatOptions>(args)
+                .WithParsed<ExtractOptions>(Extract)
+                .WithParsed<FormatOptions>(Format)
+                .WithNotParsed(HandleParseError);
+        }
+
+        static void HandleParseError(IEnumerable<Error> errs)
+        {
+        }
+
+        static void Extract(ExtractOptions opts)
+        {
+            var type = opts.Type;
+            var file = System.IO.Path.GetFullPath(opts.From);
+
+            if (!System.IO.File.Exists(file))
             {
-                Name = "code-of-everything",
-                Description = "CLI interface for code-of-everything. One day this program will do everything and even more!",
-            };
+                Console.WriteLine($"File doesn't exist: {file}");
+                return;
+            }
 
-            app.HelpOption(inherited: true);
+            var dirPath = System.IO.Path.GetDirectoryName(file);
+            var filename = System.IO.Path.GetFileName(file);
+            var extractor = new Extractor.ExtractorFactory(file, type);
+            extractor.execute();
+        }
 
-            app.Command("extract", extractCmd =>
+        static void Format(FormatOptions opts)
+        {
+            var file = System.IO.Path.GetFullPath(opts.File);
+
+            if (!System.IO.File.Exists(file))
             {
-                extractCmd.HelpOption();
-                CommandOption<string> optionType = extractCmd.Option<string>("-t|--type <TYPE>", "Target file type", CommandOptionType.SingleValue).IsRequired();
-                CommandOption<string> optionFile = extractCmd.Option<string>("-f|--from <FILE>", "Source file for extraction", CommandOptionType.SingleValue).IsRequired();
+                Console.WriteLine($"File doesn't exist: {file}");
+                return;
+            }
 
-                extractCmd.OnExecute(() =>
-                {
-                    var type = optionType.Value();
-                    var file = System.IO.Path.GetFullPath(optionFile.Value());
-
-                    if (!System.IO.File.Exists(file))
-                    {
-                        Console.WriteLine($"File doesn't exist: {file}");
-                        return;
-                    }
-
-                    var dirPath = System.IO.Path.GetDirectoryName(file);
-                    var filename = System.IO.Path.GetFileName(file);
-                    var extractor = new Extractor.ExtractorFactory(file, type);
-                    extractor.execute();
-                });
-            });
-
-            app.Command("format", formatCmd =>
-            {
-                formatCmd.HelpOption();
-                CommandOption<string> optionFile = formatCmd.Option<string>("-f|--file <FILE>", "File with data", CommandOptionType.SingleValue).IsRequired();
-
-                formatCmd.OnExecute(() =>
-                {
-                    var file = System.IO.Path.GetFullPath(optionFile.Value());
-
-                    if (!System.IO.File.Exists(file))
-                    {
-                        Console.WriteLine($"File doesn't exist: {file}");
-                        return;
-                    }
-
-                    var formatter = new FileFormatter.Formatter(file);
-                    formatter.execute();
-                });
-            });
-
-            return app.Execute(args);
+            var formatter = new FileFormatter.Formatter(file);
+            formatter.execute();
         }
     }
 }

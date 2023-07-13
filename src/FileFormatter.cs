@@ -9,15 +9,20 @@ namespace FileFormatter
     {
         string filePath;
 
-        public Formatter(string filePath_)
+        public Formatter(string filePath)
         {
-            filePath = filePath_;
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentException($"'{nameof(filePath)}' cannot be null or whitespace.", nameof(filePath));
+            }
+
+            this.filePath = filePath;
         }
 
         public void execute()
         {
-            lastLineIsEndline();
             removeTralingSpaces();
+            lastLineIsEndline();
         }
 
         protected void lastLineIsEndline()

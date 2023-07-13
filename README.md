@@ -1,9 +1,18 @@
 # Code of everything
 
+---
+
+## Build
+```bash
+dotnet publish -c release --self-contained --runtime linux-x64
+```
+
+---
+
 ## Develop
 ### Run the project
 ```bash
-dotnet run
+dotnet run -- --help
 ```
 
 ---

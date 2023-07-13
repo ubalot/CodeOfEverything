@@ -1,84 +1,23 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using Utils;
 
 namespace Extractor
 {
     abstract class ExtractorBase
     {
-        static readonly List<string> audioExtensions = new List<string>() {
-            ".aif",
-            ".cda",
-            ".mid",
-            ".mp3",
-            ".mpa",
-            ".ogg",
-            ".wav",
-            ".wma",
-            ".wpl"
-        };
-
-        static readonly List<string> fontExtensions = new List<string>() {
-            ".fnt",
-            ".fon",
-            ".otf",
-            ".ttf"
-        };
-
-        static readonly List<string> imageExtensions = new List<string>() {
-            ".ai",
-            ".bmp",
-            ".gif",
-            ".ico",
-            ".jpeg", ".jpg",
-            ".png",
-            ".ps",
-            ".psd",
-            ".svg",
-            ".tif", ".tiff"
-        };
-
-        static readonly List<string> videoExtensions = new List<string>() {
-            ".3g2",
-            ".3gp",
-            ".avi",
-            ".flv",
-            ".h264",
-            ".m4v",
-            ".mkv",
-            ".mov",
-            ".mp4",
-            ".mpg", ".mpeg",
-            ".rm",
-            ".swf",
-            ".vob",
-            ".wmv"
-        };
-
-        protected static bool isAudioFile(string fileExtension)
-        {
-            return audioExtensions.Contains(fileExtension);
-        }
-
-        protected static bool isFontFile(string fileExtension)
-        {
-            return fontExtensions.Contains(fileExtension);
-        }
-
-        protected static bool isImageFile(string fileExtension)
-        {
-            return imageExtensions.Contains(fileExtension);
-        }
-
-        protected static bool isVideoFile(string fileExtension)
-        {
-            return videoExtensions.Contains(fileExtension);
-        }
-
         abstract public void execute();
-    }
 
+        protected bool isMediaFile(string ext)
+        {
+            var isAudio = FileTypeDetector.isAudioFile(ext);
+            var isFont = FileTypeDetector.isFontFile(ext);
+            var isImage = FileTypeDetector.isImageFile(ext);
+            var isVideo = FileTypeDetector.isVideoFile(ext);
+            return isAudio || isFont || isImage || isVideo;
+        }
+    }
     class WordDocExtractor : ExtractorBase
     {
         string type;
@@ -86,16 +25,11 @@ namespace Extractor
         string zipFile;
         string destDir;
 
-        public WordDocExtractor(string filePath_, string type_)
+        public WordDocExtractor(string _filePath, string _type)
         {
-            type = type_;
-            if (type != "media")
-            {
-                Console.WriteLine($"invalid type: {type}");
-                throw new InvalidOperationException("Invalid type");
-            }
+            type = _type;
+            filePath = _filePath;
 
-            filePath = filePath_;
             var dirPath = System.IO.Path.GetDirectoryName(filePath);
             var filename = System.IO.Path.GetFileName(filePath);
             var fileTitle = Path.GetFileNameWithoutExtension(filename);
@@ -134,7 +68,7 @@ namespace Extractor
                     if (type == "media")
                     {
                         var ext = Path.GetExtension(entry.Name);
-                        if (isAudioFile(ext) || isFontFile(ext) || isImageFile(ext) || isVideoFile(ext))
+                        if (isMediaFile(ext))
                         {
                             var destFile = System.IO.Path.Combine(destDir, entry.Name);
                             try
@@ -159,16 +93,11 @@ namespace Extractor
         string zipFile;
         string destDir;
 
-        public LibreOfficeDocExtractor(string filePath_, string type_)
+        public LibreOfficeDocExtractor(string _filePath, string _type)
         {
-            type = type_;
-            if (type != "media")
-            {
-                Console.WriteLine($"invalid type: {type}");
-                throw new InvalidOperationException("Invalid type");
-            }
+            type = _type;
+            filePath = _filePath;
 
-            filePath = filePath_;
             var dirPath = System.IO.Path.GetDirectoryName(filePath);
             var filename = System.IO.Path.GetFileName(filePath);
             var fileTitle = Path.GetFileNameWithoutExtension(filename);
@@ -207,7 +136,7 @@ namespace Extractor
                     if (type == "media")
                     {
                         var ext = Path.GetExtension(entry.Name);
-                        if (isAudioFile(ext) || isFontFile(ext) || isImageFile(ext) || isVideoFile(ext))
+                        if (isMediaFile(ext))
                         {
                             var destFile = System.IO.Path.Combine(destDir, entry.Name);
                             try
@@ -229,17 +158,32 @@ namespace Extractor
     {
         ExtractorBase extractor;
 
-        public ExtractorFactory(string filePath_, string type_)
+        public ExtractorFactory(string filePath, string type)
         {
-            var filename = Path.GetFileName(filePath_);
-            var fileExtension = Path.GetExtension(filename);
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentException($"'{nameof(filePath)}' cannot be null or whitespace.", nameof(filePath));
+            }
+
+            if (string.IsNullOrWhiteSpace(type))
+            {
+                throw new ArgumentException($"'{nameof(type)}' cannot be null or whitespace.", nameof(type));
+            }
+
+            if (type != "media")
+            {
+                Console.WriteLine($"invalid type: {type}");
+                throw new NotImplementedException("Invalid type");
+            }
+
+            var fileExtension = Path.GetExtension(filePath);
             if (fileExtension == ".doc" || fileExtension == ".docx")
             {
-                extractor = new WordDocExtractor(filePath_, type_);
+                extractor = new WordDocExtractor(filePath, type);
             }
             else if (fileExtension == ".odt")
             {
-                extractor = new LibreOfficeDocExtractor(filePath_, type_);
+                extractor = new LibreOfficeDocExtractor(filePath, type);
             }
             else
             {
