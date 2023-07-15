@@ -31,12 +31,15 @@ namespace FileFormatter
 
         protected string ensureLastLineIsEmptyline(string text)
         {
-            if (text.Length == 0)
+            var trimmedText = text.TrimEnd('\r', '\n');
+            if (string.IsNullOrEmpty(trimmedText))
             {
-                return text;
+                return trimmedText + Environment.NewLine;
             }
-
-            return text.TrimEnd('\r', '\n') + Environment.NewLine + Environment.NewLine;
+            else
+            {
+                return trimmedText + Environment.NewLine + Environment.NewLine;
+            }
         }
 
         protected string removeTralingSpaces(string text)
