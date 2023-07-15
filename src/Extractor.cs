@@ -25,10 +25,10 @@ namespace Extractor
         string zipFile;
         string destDir;
 
-        public WordDocExtractor(string _filePath, string _type)
+        public WordDocExtractor(string filePath, string type)
         {
-            type = _type;
-            filePath = _filePath;
+            this.type = type;
+            this.filePath = filePath;
 
             var dirPath = System.IO.Path.GetDirectoryName(filePath);
             var filename = System.IO.Path.GetFileName(filePath);
@@ -93,13 +93,13 @@ namespace Extractor
         string zipFile;
         string destDir;
 
-        public LibreOfficeDocExtractor(string _filePath, string _type)
+        public LibreOfficeDocExtractor(string filePath, string type)
         {
-            type = _type;
-            filePath = _filePath;
+            this.type = type;
+            this.filePath = filePath;
 
-            var dirPath = System.IO.Path.GetDirectoryName(filePath);
-            var filename = System.IO.Path.GetFileName(filePath);
+            var dirPath = System.IO.Path.GetDirectoryName(this.filePath);
+            var filename = System.IO.Path.GetFileName(this.filePath);
             var fileTitle = Path.GetFileNameWithoutExtension(filename);
             var fileExtension = Path.GetExtension(filename);
             if (fileExtension != ".odt")
