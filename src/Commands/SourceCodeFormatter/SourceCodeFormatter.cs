@@ -1,8 +1,7 @@
 using System;
 using System.IO;
-using System.Linq;
 
-namespace FileFormatter
+namespace SourceCodeFormatter
 {
     class Formatter
     {
@@ -10,26 +9,27 @@ namespace FileFormatter
 
         public Formatter(string filePath)
         {
-            if (string.IsNullOrWhiteSpace(filePath))
-            {
-                throw new ArgumentException($"'{nameof(filePath)}' cannot be null or whitespace.", nameof(filePath));
-            }
-
             this.filePath = filePath;
         }
 
         public void execute()
         {
-            string text = File.ReadAllText(filePath);
-            string formattedText = removeTralingSpaces(text);
-            formattedText = ensureLastLineIsEmptyline(formattedText);
+            var text = File.ReadAllText(filePath);
+            var formattedText = format(text);
             if (text != formattedText)
             {
                 File.WriteAllText(filePath, formattedText);
             }
         }
 
-        protected string ensureLastLineIsEmptyline(string text)
+        public static string format(string text)
+        {
+            var formattedText = removeTralingSpaces(text);
+            formattedText = ensureLastLineIsEmptyline(formattedText);
+            return formattedText;
+        }
+
+        protected static string ensureLastLineIsEmptyline(string text)
         {
             var trimmedText = text.TrimEnd('\r', '\n');
             if (string.IsNullOrEmpty(trimmedText))
@@ -42,10 +42,10 @@ namespace FileFormatter
             }
         }
 
-        protected string removeTralingSpaces(string text)
+        protected static string removeTralingSpaces(string text)
         {
-            string[] lines = text.Split("\n");
-            string[] result = Array.ConvertAll(lines, line => line.TrimEnd());
+            var lines = text.Split("\n");
+            var result = Array.ConvertAll(lines, line => line.TrimEnd());
             return string.Join("\n", result);
         }
     }

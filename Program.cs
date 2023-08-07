@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using CommandLine;
 
@@ -40,11 +40,7 @@ namespace CodeOfEverything
             var type = opts.Type;
             var file = System.IO.Path.GetFullPath(opts.From);
 
-            if (!System.IO.File.Exists(file))
-            {
-                Console.WriteLine($"File doesn't exist: {file}");
-                return;
-            }
+            fileArgCheck(file);
 
             var dirPath = System.IO.Path.GetDirectoryName(file);
             var filename = System.IO.Path.GetFileName(file);
@@ -56,14 +52,18 @@ namespace CodeOfEverything
         {
             var file = System.IO.Path.GetFullPath(opts.File);
 
-            if (!System.IO.File.Exists(file))
-            {
-                Console.WriteLine($"File doesn't exist: {file}");
-                return;
-            }
+            fileArgCheck(file);
 
-            var formatter = new FileFormatter.Formatter(file);
+            var formatter = new SourceCodeFormatter.Formatter(file);
             formatter.execute();
+        }
+
+        private static void fileArgCheck(string filePath)
+        {
+            if (!System.IO.File.Exists(filePath))
+            {
+                throw new ArgumentException($"File doesn't exist: {filePath}");
+            }
         }
     }
 }
