@@ -4,6 +4,25 @@ using CommandLine;
 
 namespace CodeOfEverything
 {
+    [Verb("cipher", HelpText = "Cipher/Decipher file with desired encryption technique")]
+    class CipherOptions
+    {
+        [Option("type", Required = true, HelpText = "Specify the encryption/decryption technique.")]
+        public string Type { get; set; }
+
+        [Option("input", Required = true, HelpText = "Specify the text that will be encrypted/decrypted.")]
+        public string Input { get; set; }
+
+        [Option("output", Required = true, HelpText = "Specify the destination of the encrypted/decrypted text.")]
+        public string Output { get; set; }
+
+        [Option("key", Required = true, HelpText = "Key to be used for encryption/decryption.")]
+        public string Key { get; set; }
+
+        [Option(Default = false, HelpText = "Encrypt or decrypt action.")]
+        public bool Decrypt { get; set; }
+    }
+
     [Verb("extract", HelpText = "Extract data")]
     class ExtractOptions
     {
@@ -25,7 +44,8 @@ namespace CodeOfEverything
     {
         static void Main(string[] args)
         {
-            CommandLine.Parser.Default.ParseArguments<ExtractOptions, FormatOptions>(args)
+            CommandLine.Parser.Default.ParseArguments<CipherOptions, ExtractOptions, FormatOptions>(args)
+                .WithParsed<CipherOptions>(Cipher)
                 .WithParsed<ExtractOptions>(Extract)
                 .WithParsed<FormatOptions>(Format)
                 .WithNotParsed(HandleParseError);
@@ -33,6 +53,20 @@ namespace CodeOfEverything
 
         static void HandleParseError(IEnumerable<Error> errs)
         {
+        }
+
+        static void Cipher(CipherOptions opts)
+        {
+            var type = opts.Type;
+            var inputFile = System.IO.Path.GetFullPath(opts.Input);
+            var outputFile = System.IO.Path.GetFullPath(opts.Output);
+            var key = opts.Key;
+            var decrypt = opts.Decrypt;
+
+            fileArgCheck(inputFile);
+
+            var cipher = new Cipher.CipherFactory(type, inputFile, outputFile, key, decrypt);
+            cipher.execute();
         }
 
         static void Extract(ExtractOptions opts)
