@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace CodeOfEverything.src.Services.Tasks
+namespace CodeOfEverything.Services.Tasks
 {
     public interface ITaskFactory
     {

@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Logging;
 
-namespace CodeOfEverything.src.Services
+namespace CodeOfEverything.Services
 {
     public class ConsoleOutput(ILogger<ConsoleOutput> logger) : IConsoleOutput
     {

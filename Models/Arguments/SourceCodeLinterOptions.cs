@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using CommandLine;
 
-namespace CodeOfEverything.src.Models.Arguments
+namespace CodeOfEverything.Models.Arguments
 {
     [Verb("format", HelpText = "Format data")]
     public class SourceCodeLinterOptions

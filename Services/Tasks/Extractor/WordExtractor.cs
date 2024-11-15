@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.IO.Compression;
 
-namespace CodeOfEverything.src.Services.Tasks.Extractor
+namespace CodeOfEverything.Services.Tasks.Extractor
 {
     class WordDocExtractor : ExtractorBase
     {
@@ -13,6 +13,16 @@ namespace CodeOfEverything.src.Services.Tasks.Extractor
 
         public WordDocExtractor(string filePath, string type)
         {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                throw new ArgumentException($"'{nameof(filePath)}' cannot be null or empty.", nameof(filePath));
+            }
+
+            if (string.IsNullOrEmpty(type))
+            {
+                throw new ArgumentException($"'{nameof(type)}' cannot be null or empty.", nameof(type));
+            }
+
             this.type = type;
             this.filePath = filePath;
 

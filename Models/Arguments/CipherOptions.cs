@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using CommandLine;
 
-namespace CodeOfEverything.src.Models.Arguments
+namespace CodeOfEverything.Models.Arguments
 {
     [Verb("cipher", HelpText = "Cipher/Decipher file with desired encryption technique")]
     public class CipherOptions

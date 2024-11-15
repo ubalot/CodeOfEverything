@@ -2,10 +2,10 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using CodeOfEverything.src.Models.Arguments;
-using CodeOfEverything.src.Utils;
+using CodeOfEverything.Models.Arguments;
+using CodeOfEverything.Utils;
 
-namespace CodeOfEverything.src.Services.Tasks.Extractor
+namespace CodeOfEverything.Services.Tasks.Extractor
 {
     abstract class ExtractorBase
     {
@@ -21,21 +21,14 @@ namespace CodeOfEverything.src.Services.Tasks.Extractor
         }
     }
 
-    public class ExtractorFactory : ITaskFactory
+    public class ExtractorFactory(
+        IConsoleOutput console,
+        ILogger<ExtractorFactory> logger,
+        ExtractorOptions options) : ITaskFactory
     {
-        private readonly IConsoleOutput _console;
-        private readonly ILogger<ExtractorFactory> _logger;
-        private readonly ExtractorOptions _options;
-
-        public ExtractorFactory(
-            IConsoleOutput console,
-            ILogger<ExtractorFactory> logger,
-            ExtractorOptions options)
-        {
-            _console = console;
-            _logger = logger;
-            _options = options;
-        }
+        private readonly IConsoleOutput _console = console;
+        private readonly ILogger<ExtractorFactory> _logger = logger;
+        private readonly ExtractorOptions _options = options;
 
         public Task<int> Launch() => Task.Run(() =>
         {

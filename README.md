@@ -16,7 +16,7 @@ dotnet run -- --help
 ---
 
 Commands:
-- [Cipher](src/Commands/Cipher/README.md)
-- [Extractor](src/Commands/Extractor/README.md)
-- [Source code file formatter](src/Commands/SourceCodeFormatter/README.md)
-- [System info](src/Commands/SystemInfo/README.md)
+- [Cipher](Services/Tasks/Cipher/README.md)
+- [Extractor](Services/Tasks/Extractor/README.md)
+- [Source code file formatter](Services/Tasks/SourceCodeFormatter/README.md)
+- [System info](Services/Tasks/SystemInfo/README.md)

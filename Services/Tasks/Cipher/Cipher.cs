@@ -1,25 +1,18 @@
 using System;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using CodeOfEverything.src.Models.Arguments;
+using CodeOfEverything.Models.Arguments;
 
-namespace CodeOfEverything.src.Services.Tasks.Cipher
+namespace CodeOfEverything.Services.Tasks.Cipher
 {
-    public class CipherFactory : ITaskFactory
+    public class CipherFactory(
+        IConsoleOutput console,
+        ILogger<CipherFactory> logger,
+        CipherOptions options) : ITaskFactory
     {
-        private readonly IConsoleOutput _console;
-        private readonly ILogger<CipherFactory> _logger;
-        private readonly CipherOptions _options;
-
-        public CipherFactory(
-            IConsoleOutput console,
-            ILogger<CipherFactory> logger,
-            CipherOptions options)
-        {
-            _console = console;
-            _logger = logger;
-            _options = options;
-        }
+        private readonly IConsoleOutput _console = console;
+        private readonly ILogger<CipherFactory> _logger = logger;
+        private readonly CipherOptions _options = options;
 
         public Task<int> Launch() => Task.Run(() =>
         {

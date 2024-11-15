@@ -4,13 +4,13 @@ using CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using CodeOfEverything.src.Models.Arguments;
-using CodeOfEverything.src.Services;
-using CodeOfEverything.src.Services.Tasks;
-using CodeOfEverything.src.Services.Tasks.Cipher;
-using CodeOfEverything.src.Services.Tasks.Extractor;
-using CodeOfEverything.src.Services.Tasks.SourceCodeLinter;
-using CodeOfEverything.src.Services.Tasks.SystemInfo;
+using CodeOfEverything.Models.Arguments;
+using CodeOfEverything.Services;
+using CodeOfEverything.Services.Tasks;
+using CodeOfEverything.Services.Tasks.Cipher;
+using CodeOfEverything.Services.Tasks.Extractor;
+using CodeOfEverything.Services.Tasks.SourceCodeLinter;
+using CodeOfEverything.Services.Tasks.SystemInfo;
 
 namespace CodeOfEverything
 {

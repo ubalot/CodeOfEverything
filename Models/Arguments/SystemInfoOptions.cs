@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using CommandLine;
 
-namespace CodeOfEverything.src.Models.Arguments
+namespace CodeOfEverything.Models.Arguments
 {
     [Verb("sysinfo", HelpText = "System info")]
     public class SystemInfoFactoryOptions

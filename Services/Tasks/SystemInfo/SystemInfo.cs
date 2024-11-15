@@ -2,25 +2,18 @@ using System;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using CodeOfEverything.src.Models.Arguments;
+using CodeOfEverything.Models.Arguments;
 
-namespace CodeOfEverything.src.Services.Tasks.SystemInfo
+namespace CodeOfEverything.Services.Tasks.SystemInfo
 {
-    public class SystemInfoFactory : ITaskFactory
+    public class SystemInfoFactory(
+        IConsoleOutput console,
+        ILogger<SystemInfoFactory> logger,
+        SystemInfoFactoryOptions options) : ITaskFactory
     {
-        private readonly IConsoleOutput _console;
-        private readonly ILogger<SystemInfoFactory> _logger;
-        private readonly SystemInfoFactoryOptions _options;
-
-        public SystemInfoFactory(
-            IConsoleOutput console,
-            ILogger<SystemInfoFactory> logger,
-            SystemInfoFactoryOptions options)
-        {
-            _console = console;
-            _logger = logger;
-            _options = options;
-        }
+        private readonly IConsoleOutput _console = console;
+        private readonly ILogger<SystemInfoFactory> _logger = logger;
+        private readonly SystemInfoFactoryOptions _options = options;
 
         public Task<int> Launch() => Task.Run(() =>
         {
@@ -59,7 +52,7 @@ namespace CodeOfEverything.src.Services.Tasks.SystemInfo
                 RedirectStandardOutput = true,
                 FileName = "/bin/bash",
                 Arguments = $"-c \"{command}\"",
-            }; 
+            };
             var process = new Process() { StartInfo = startInfo, };
             process.Start();
             process.WaitForExit(); // Wait for the child process to exit before reading to the end of its redirected stream.

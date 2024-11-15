@@ -2,12 +2,11 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace CodeOfEverything.src.Services.Tasks.Cipher
+namespace CodeOfEverything.Services.Tasks.Cipher
 {
     class CaesarCipher
     {
-        static readonly int alphabetLenght = 'z' - 'a';
-
+        public static readonly int alphabetLenght = 'z' - 'a';
 
         private readonly string inputFile;
         private readonly string outputFile;
@@ -16,6 +15,21 @@ namespace CodeOfEverything.src.Services.Tasks.Cipher
 
         public CaesarCipher(string inputFile, string outputFile, string key, bool decrypt)
         {
+            if (string.IsNullOrEmpty(inputFile))
+            {
+                throw new ArgumentException($"'{nameof(inputFile)}' cannot be null or empty.", nameof(inputFile));
+            }
+
+            if (string.IsNullOrEmpty(outputFile))
+            {
+                throw new ArgumentException($"'{nameof(outputFile)}' cannot be null or empty.", nameof(outputFile));
+            }
+
+            if (string.IsNullOrEmpty(key))
+            {
+                throw new ArgumentException($"'{nameof(key)}' cannot be null or empty.", nameof(key));
+            }
+
             if (key.Length != 1)
             {
                 throw new ArgumentException("key must be of length 1");
@@ -78,7 +92,7 @@ namespace CodeOfEverything.src.Services.Tasks.Cipher
 
         protected static int AsciiLetterStartCode(char c)
         {
-            return Char.IsLower(c) ? 'a' : 'A';
+            return char.IsLower(c) ? 'a' : 'A';
         }
     }
 }

@@ -2,25 +2,18 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using CodeOfEverything.src.Models.Arguments;
+using CodeOfEverything.Models.Arguments;
 
-namespace CodeOfEverything.src.Services.Tasks.SourceCodeLinter
+namespace CodeOfEverything.Services.Tasks.SourceCodeLinter
 {
-    public class SourceCodeLinterFactory : ITaskFactory
+    public class SourceCodeLinterFactory(
+        IConsoleOutput console,
+        ILogger<SourceCodeLinterFactory> logger,
+        SourceCodeLinterOptions options) : ITaskFactory
     {
-        private readonly IConsoleOutput _console;
-        private readonly ILogger<SourceCodeLinterFactory> _logger;
-        private readonly SourceCodeLinterOptions _options;
-
-        public SourceCodeLinterFactory(
-            IConsoleOutput console,
-            ILogger<SourceCodeLinterFactory> logger,
-            SourceCodeLinterOptions options)
-        {
-            _console = console;
-            _logger = logger;
-            _options = options;
-        }
+        private readonly IConsoleOutput _console = console;
+        private readonly ILogger<SourceCodeLinterFactory> _logger = logger;
+        private readonly SourceCodeLinterOptions _options = options;
 
         public Task<int> Launch() => Task.Run(() =>
         {
