@@ -19,3 +19,4 @@ Commands:
 - [Cipher](src/Commands/Cipher/README.md)
 - [Extractor](src/Commands/Extractor/README.md)
 - [Source code file formatter](src/Commands/SourceCodeFormatter/README.md)
+- [System info](src/Commands/SystemInfo/README.md)

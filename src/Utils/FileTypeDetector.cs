@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 
-namespace Utils
+namespace CodeOfEverything.src.Utils
 {
     class FileTypeDetector
     {
-        static readonly List<string> audioExtensions = new List<string>() {
+        static readonly List<string> audioExtensions = new() {
             ".aif",
             ".cda",
             ".mid",
@@ -16,14 +16,14 @@ namespace Utils
             ".wpl"
         };
 
-        static readonly List<string> fontExtensions = new List<string>() {
+        static readonly List<string> fontExtensions = new() {
             ".fnt",
             ".fon",
             ".otf",
             ".ttf"
         };
 
-        static readonly List<string> imageExtensions = new List<string>() {
+        static readonly List<string> imageExtensions = new() {
             ".ai",
             ".bmp",
             ".gif",
@@ -36,7 +36,7 @@ namespace Utils
             ".tif", ".tiff"
         };
 
-        static readonly List<string> videoExtensions = new List<string>() {
+        static readonly List<string> videoExtensions = new() {
             ".3g2",
             ".3gp",
             ".avi",
@@ -53,22 +53,22 @@ namespace Utils
             ".wmv"
         };
 
-        internal static bool isAudioFile(string fileExtension)
+        internal static bool IsAudioFile(string fileExtension)
         {
             return audioExtensions.Contains(fileExtension);
         }
 
-        internal static bool isFontFile(string fileExtension)
+        internal static bool IsFontFile(string fileExtension)
         {
             return fontExtensions.Contains(fileExtension);
         }
 
-        internal static bool isImageFile(string fileExtension)
+        internal static bool IsImageFile(string fileExtension)
         {
             return imageExtensions.Contains(fileExtension);
         }
 
-        internal static bool isVideoFile(string fileExtension)
+        internal static bool IsVideoFile(string fileExtension)
         {
             return videoExtensions.Contains(fileExtension);
         }
